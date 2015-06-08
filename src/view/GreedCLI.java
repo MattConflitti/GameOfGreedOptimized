@@ -57,7 +57,6 @@ public class GreedCLI {
 
 		System.out.println("WELCOME TO THE GAME OF GREED...\n");
 		
-		//FIXME 2-4?
 		//Prompt user for number of players
 		while(numPlayers < 2 || numPlayers > 4) {
 			System.out.print("How many players? ");
@@ -68,7 +67,6 @@ public class GreedCLI {
 		//how many times each player wins
 		playersWon = new int[numPlayers];
 		
-		//FIXME 1000-10000?
 		//prompt user for winning score
 		while(winScore < 1000 || winScore > 10000) {
 			System.out.print("Points to win the game? ");
