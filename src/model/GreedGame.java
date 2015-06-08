@@ -299,6 +299,13 @@ public class GreedGame {
 		return str;
 	}
 
+	/*******************************************************************
+	 * Checks if dice are in a straight pattern and returns the given
+	 * score.
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
+	
 	private int straightScore() {
 		int score = 0;
 		if(freq[0] == 1 && freq[1] == 1 && 
