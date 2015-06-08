@@ -59,7 +59,7 @@ public class GreedCLI {
 		
 		//Prompt user for number of players
 		while(numPlayers < 2 || numPlayers > 4) {
-			System.out.print("How many players? ");
+			System.out.print("How many players (2-4)? ");
 			numPlayers = scnr.nextInt();
 		}
 		
@@ -69,7 +69,7 @@ public class GreedCLI {
 		
 		//prompt user for winning score
 		while(winScore < 1000 || winScore > 10000) {
-			System.out.print("Points to win the game? ");
+			System.out.print("Points to win the game (1000-10000)? ");
 			winScore = scnr.nextInt();
 		}
 
