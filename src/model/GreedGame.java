@@ -318,6 +318,12 @@ public class GreedGame {
 		return score;	
 	}
 
+	/*******************************************************************
+	 * Checks if dice have three pairs of numbers
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
+	
 	private int pairScore() {
 		int pairs = 0, score = 0;
 		for(int i = 0; i<freq.length; i++) {
