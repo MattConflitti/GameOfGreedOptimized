@@ -5,7 +5,7 @@ import java.util.*;
 
 /***********************************************************************
  * @author Matt Conflitti
- * @version 1.006052015
+ * @version 1.006092015
  * 
  * GreedCLI class imports the GreedGame class and creates a command line
  * user interface to play the Game of Greed utilizing the GreedGame
@@ -52,24 +52,24 @@ public class GreedCLI {
 	 * out the game until someone wins and the users decide to quit 
 	 * game.
 	 ******************************************************************/
-	
+
 	public void play() {
 
 		System.out.println("WELCOME TO THE GAME OF GREED...\n");
-		
+
 		//Prompt user for number of players
 		while(numPlayers < 2 || numPlayers > 4) {
-			System.out.print("How many players? ");
+			System.out.print("How many players (2-4)? ");
 			numPlayers = scnr.nextInt();
 		}
-		
+
 		//instantiate playersWon array to size of numPlayers to track
 		//how many times each player wins
 		playersWon = new int[numPlayers];
-		
+
 		//prompt user for winning score
 		while(winScore < 1000 || winScore > 10000) {
-			System.out.print("Points to win the game? ");
+			System.out.print("Points to win the game (1000-10000)? ");
 			winScore = scnr.nextInt();
 		}
 
@@ -93,14 +93,14 @@ public class GreedCLI {
 				if(val > 0 && val <= numPlayers)	
 					playerStart = val-1;
 			}
-			
+
 			//instantiate GreedGame with desired specs and num players
 			GreedGame game = new GreedGame(playerStart, winScore);
 			game.makePlayers(numPlayers);
 
 			//while the game is not yet won, continue playing
 			while(!game.isWon()) {
-				
+
 				//notify whose turn it is
 				System.out.print("Player " + 
 						(game.getCurrPlayer().getId()+1) + "'s " +
@@ -110,7 +110,7 @@ public class GreedCLI {
 
 				//infinite loop until broken by user input
 				while(true) {
-					
+
 					//roll dice, calc score
 					game.rollDice();
 					System.out.print("You rolled: " + game.displayDice()
@@ -137,7 +137,7 @@ public class GreedCLI {
 						break;
 					}
 				}
-				
+
 				//after each turn display players' scores
 				System.out.println(game.displayGameScore());
 			}
@@ -175,7 +175,7 @@ public class GreedCLI {
 			}
 
 		}
-		
+
 		//goodbye message. end of program.
 		System.out.println("Bye. Thanks for playing.");
 
@@ -185,7 +185,7 @@ public class GreedCLI {
 	 * Main method instantiates the GreedCLI class and invokes the play
 	 * method to start the game.
 	 ******************************************************************/
-	
+
 	public static void main(String[] args) {
 		GreedCLI cli = new GreedCLI();
 		cli.play();

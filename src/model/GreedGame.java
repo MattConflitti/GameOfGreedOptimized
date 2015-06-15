@@ -2,7 +2,7 @@ package model;
 
 /***********************************************************************
  * @author Matt Conflitti
- * @version 1.006052015
+ * @version 1.006092015
  * 
  * GreedGame stores the Game of Greed information and methods necessary
  * to carry out gameplay following the specific rules of the game.
@@ -39,7 +39,7 @@ public class GreedGame {
 
 	/** number of dice constant */
 	private final int NBR_OF_DICE = 6;
-	
+
 	/*******************************************************************
 	 * 
 	 * Default constructor that sets the GreedGame to starting values
@@ -49,7 +49,7 @@ public class GreedGame {
 	 ******************************************************************/
 
 	public GreedGame(int playerTurn, int winScore) {
-		
+
 		this.playerTurn = playerTurn;
 		this.winScore = winScore;
 		this.dice = new Die[NBR_OF_DICE];
@@ -71,7 +71,7 @@ public class GreedGame {
 	 * 
 	 * @param num number of players to instantiate
 	 ******************************************************************/
-	
+
 	public void makePlayers(int num) {
 
 		//throws exception if param is less than 2
@@ -87,7 +87,7 @@ public class GreedGame {
 			this.players[i] = new Player(i);
 		}
 	}
-	
+
 	/*******************************************************************
 	 * Returns the player object at index of of the current playerTurn.
 	 * 
@@ -97,7 +97,7 @@ public class GreedGame {
 	public Player getCurrPlayer() {
 		return players[playerTurn];
 	}
-	
+
 	/*******************************************************************
 	 * Adds turn score to current player's existing score
 	 * 
@@ -115,7 +115,7 @@ public class GreedGame {
 	 * "passes dice" and updates playerTurn. Resets dice and updates
 	 * current player's score
 	 ******************************************************************/
-	
+
 	public void passDice() {
 
 		addCurrPlayerScore(turnScore);
@@ -136,7 +136,7 @@ public class GreedGame {
 	/*******************************************************************
 	 * Rolls dice and gets new random face values for each
 	 ******************************************************************/
-	
+
 	public void rollDice() {
 		for(int i = 0; i<dice.length; i++) {
 			dice[i].roll();
@@ -148,16 +148,16 @@ public class GreedGame {
 	 * 
 	 * @return str string of dice values
 	 ******************************************************************/
-	
+
 	public String displayDice() {
 		String str = "";
 		for(int i = 0; i<dice.length; i++) {
-			
+
 			//only shows dice that are currently available
 			if(dice[i].getIsAvailable())
 				str += "" + dice[i] + " ";
 		}
-		
+
 		for(int i=0; i<6-diceAvail; i++) {
 			str+="  ";
 		}
@@ -172,7 +172,7 @@ public class GreedGame {
 	 * 
 	 * @return str string of scores
 	 ******************************************************************/
-	
+
 	public String displayTurn() {
 		String str ="Roll Score: " + getRollScore() + "\t" +
 				"Turn Score: " + getTurnScore() + "\t" +
@@ -185,9 +185,9 @@ public class GreedGame {
 	 * Helper method to sort the values of the available dice into 
 	 * numerical categories to be later manipulated and scored
 	 ******************************************************************/
-	
+
 	private void setFreq() {
-		
+
 		//first reset all frequencies to 0
 		for(int i = 0; i<freq.length; i++) {
 			freq[i] = 0;
@@ -217,7 +217,7 @@ public class GreedGame {
 	 * Helper method resets diceAvail to 6 and changes each Die object's
 	 * isAvailable field to true
 	 ******************************************************************/
-	
+
 	private void resetDiceAvail() {
 		diceAvail = 6;
 		for(int i = 0; i<diceAvail; i++) {
@@ -229,7 +229,7 @@ public class GreedGame {
 	 * Helper method updates the die object's availability based on
 	 * the diceAvail field's int value
 	 ******************************************************************/
-	
+
 	private void setDiceAvail() {
 
 		//get current dice availability count
@@ -247,7 +247,7 @@ public class GreedGame {
 		if(diceAvail == 0) {
 			resetDiceAvail();
 		} else {
-			
+
 			//calculate how many should be turned off
 			//loop through and turn off correct amount
 			for(int i = 0; i<currAvail-diceAvail; i++) {
@@ -261,7 +261,7 @@ public class GreedGame {
 		}
 
 	}
-	
+
 	/*******************************************************************
 	 * Simulates a players turn after rolling the dice.
 	 ******************************************************************/
@@ -272,7 +272,7 @@ public class GreedGame {
 		setFreq();
 		rollScore();
 		setDiceAvail();
-		
+
 		//updates turn score
 		if(rollScore == 0)
 			setTurnScore(0);
@@ -280,7 +280,7 @@ public class GreedGame {
 			setTurnScore(rollScore+turnScore);
 
 	}
-	
+
 	/*******************************************************************
 	 * Creates string to display game scores of both players at the 
 	 * current point in the game.
@@ -290,7 +290,7 @@ public class GreedGame {
 
 	public String displayGameScore() {
 		String str = "Game Scores ==> ";
-		
+
 		for(Player p : players) {
 			str += "Player " + (p.getId()+1) + ": " + p.getGameScore()+
 					"\t";
@@ -302,10 +302,11 @@ public class GreedGame {
 	/*******************************************************************
 	 * Checks if dice are in a straight pattern and returns the given
 	 * score.
+	 * 1200 pts
 	 * 
 	 * @return score value to add if method returns score
 	 ******************************************************************/
-	
+
 	private int straightScore() {
 		int score = 0;
 		if(freq[0] == 1 && freq[1] == 1 && 
@@ -319,11 +320,12 @@ public class GreedGame {
 	}
 
 	/*******************************************************************
-	 * Checks if dice have three pairs of numbers
+	 * Checks if dice have three pairs of numbers and returns score
+	 * 800 pts
 	 * 
 	 * @return score value to add if method returns score
 	 ******************************************************************/
-	
+
 	private int pairScore() {
 		int pairs = 0, score = 0;
 		for(int i = 0; i<freq.length; i++) {
@@ -340,11 +342,20 @@ public class GreedGame {
 		return score;
 	}
 
+	/*******************************************************************
+	 * Checks if dice have six of a kind and returns score
+	 * (facevalue triple score times 8)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
+
 	private int sixOfKindScore() {
 		int score = 0;
 		for(int i = 0; i<freq.length; i++) {
 			if(i == 0) {
 				if(freq[i] == 6) {
+
+					//if die facevalue is 1 give different score
 					score+= 8000;
 					diceAvail -= 6;
 				}
@@ -359,6 +370,13 @@ public class GreedGame {
 		return score;
 
 	}
+
+	/*******************************************************************
+	 * Checks if dice have five of a kind and returns score
+	 * (facevalue triple score times 4)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
 
 	private int fiveOfKindScore() {
 		int score = 0;
@@ -379,6 +397,13 @@ public class GreedGame {
 		return score;
 	}
 
+	/*******************************************************************
+	 * Checks if dice have four of a kind and returns score
+	 * (facevalue triple score times 2)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
+
 	private int fourOfKindScore() {
 		int score =0;
 		for(int i = 0; i<freq.length; i++) {
@@ -396,6 +421,13 @@ public class GreedGame {
 		}
 		return score;
 	}
+
+	/*******************************************************************
+	 * Checks if dice have three of a kind and returns score 
+	 * (facevalue times 100 points unless facevalue is 1, then 1000 pts)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
 
 	private int threeOfKindScore() {
 		int score = 0;
@@ -416,6 +448,13 @@ public class GreedGame {
 		return score;
 	}
 
+	/*******************************************************************
+	 * Checks if dice contains 1 or 2 die with facevalue of 1 and 
+	 * returns score (100 points per die)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
+
 	private int oneScore() {
 		int score = 0;
 		if(freq[0] < 3 && freq[0] > 0 && pairScore() == 0 && 
@@ -426,6 +465,13 @@ public class GreedGame {
 
 		return score;
 	}
+
+	/*******************************************************************
+	 * Checks if dice contains 1 or 2 die with facevalue of 5 and 
+	 * returns score (50 points per die)
+	 * 
+	 * @return score value to add if method returns score
+	 ******************************************************************/
 
 	private int fiveScore() {
 		int score = 0;
@@ -438,13 +484,30 @@ public class GreedGame {
 		return score;
 	}
 
+	/*******************************************************************
+	 * Getter method to return number of players in game
+	 * 
+	 * @return number of players
+	 ******************************************************************/
+
 	public int getNumPlayers() {
 		return numPlayers;
 	}
 
+	/*******************************************************************
+	 * Setter method to set number of players in game
+	 * 
+	 * @param numPlayers number of players
+	 ******************************************************************/
+
 	public void setNumPlayers(int numPlayers) {
 		this.numPlayers = numPlayers;
 	}
+
+	/*******************************************************************
+	 * Calculate the roll score by calling all of the scoreing methods
+	 * and adding the returned integers
+	 ******************************************************************/
 
 	public void rollScore() {
 		rollScore = straightScore() + pairScore() + sixOfKindScore() +
@@ -452,9 +515,21 @@ public class GreedGame {
 				threeOfKindScore() + oneScore() + fiveScore();
 	}
 
+	/*******************************************************************
+	 * Getter method to return roll score
+	 * 
+	 * @return rollScore
+	 ******************************************************************/
+
 	public int getRollScore() {
 		return rollScore;
 	}
+
+	/*******************************************************************
+	 * Getter method to return boolean if game is won or not
+	 * 
+	 * @return won true or false depending on players' scores
+	 ******************************************************************/
 
 	public boolean isWon() {
 		boolean won = false;
@@ -466,6 +541,12 @@ public class GreedGame {
 		return won;
 	}
 
+	/*******************************************************************
+	 * Getter method to return id of winning player
+	 * 
+	 * @return winning id
+	 ******************************************************************/
+
 	public int getWinnerId() {
 		for(Player p : players) {
 			if(p.getGameScore() >= winScore) {
@@ -475,41 +556,97 @@ public class GreedGame {
 		return -1;
 	}
 
+	/*******************************************************************
+	 * Setter method to set rollScore
+	 * 
+	 * @param rollScore roll score
+	 ******************************************************************/
+
 	public void setRollScore(int rollScore) {
 		this.rollScore = rollScore;
 	}
+
+	/*******************************************************************
+	 * Getter method to return turn score
+	 * 
+	 * @return turnScore turn score
+	 ******************************************************************/
 
 	public int getTurnScore() {
 		return turnScore;
 	}
 
+	/*******************************************************************
+	 * Setter method to set turn score
+	 * 
+	 * @param turnScore score to set
+	 ******************************************************************/
+
 	public void setTurnScore(int turnScore) {
 		this.turnScore = turnScore;
 	}
+
+	/*******************************************************************
+	 * Getter method to return which player's turn it is
+	 * 
+	 * @return playerTurn player turn
+	 ******************************************************************/
 
 	public int getPlayerTurn() {
 		return playerTurn;
 	}
 
+	/*******************************************************************
+	 * Setter method to set which player's turn it is
+	 * 
+	 * @param playerTurn player turn
+	 ******************************************************************/
+
 	public void setPlayerTurn(int playerTurn) {
 		this.playerTurn = playerTurn;
 	}
+
+	/*******************************************************************
+	 * Getter method to return winning score
+	 * 
+	 * @return winScore winning score
+	 ******************************************************************/
 
 	public int getWinScore() {
 		return winScore;
 	}
 
+	/*******************************************************************
+	 * Setter method to set winning score
+	 * 
+	 * @param winScore winning score
+	 ******************************************************************/
+
 	public void setWinScore(int winScore) {
 		this.winScore = winScore;
 	}
+
+	/*******************************************************************
+	 * Getter method to return how many dice available
+	 * 
+	 * @return diceAvail available dice
+	 ******************************************************************/
 
 	public int getDiceAvail() {
 		return diceAvail;
 	}
 
-	public void setDiceAvail(int diceAvail) {
-		this.diceAvail = diceAvail;
-	}
+	/*******************************************************************
+	 * Method used for testing to explicitly set each dice value to
+	 * test scoring
+	 * 
+	 * @param a facevalue to set
+	 * @param b facevalue to set
+	 * @param c facevalue to set
+	 * @param d facevalue to set
+	 * @param e facevalue to set
+	 * @param f facevalue to set
+	 ******************************************************************/
 
 	public void setDice(int a, int b, int c, int d, int e, int f) {
 		dice[0].setFaceValue(a);
@@ -518,21 +655,6 @@ public class GreedGame {
 		dice[3].setFaceValue(d);
 		dice[4].setFaceValue(e);
 		dice[5].setFaceValue(f);
-	}
-
-	public static void main(String[] args) {
-		GreedGame game = new GreedGame(1,1000);
-		game.makePlayers(2);
-
-		game.rollDice();
-
-		//set dice manually to test scoring
-		game.setDice(2,2,2,5,5,5);
-
-		System.out.print("You rolled: " + game.displayDice() + "\t");
-		game.turn();
-		System.out.println(game.displayTurn());
-
 	}
 
 }
